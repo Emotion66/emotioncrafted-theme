@@ -1,0 +1,44 @@
+
+{% schema %}
+{
+  "name": "Homepage Collections Grid",
+  "tag": "section",
+  "settings": {},
+  "blocks": [
+    { "type": "collection", "name": "Best Sellers" },
+    { "type": "collection", "name": "Featured Art" },
+    { "type": "collection", "name": "Nature & Landscapes" },
+    { "type": "collection", "name": "Inspirational & Cosmic" },
+    { "type": "collection", "name": "Limited Editions" },
+    { "type": "collection", "name": "Custom Prints" }
+  ],
+  "presets": {
+    "name": "Homepage Collections Grid"
+  }
+}
+{% endschema %}
+
+<section style="padding: 4rem 2rem; background: #fff4ef;">
+  <div style="max-width: 1200px; margin: auto; text-align: center;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">Explore Our Collections</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
+      {% for block in section.blocks %}
+        {% assign collection_handle = block.name | handleize %}
+        {% assign collection = collections[collection_handle] %}
+        {% if collection %}
+          <a href="{{ collection.url }}" style="text-decoration: none; color: inherit; width: 300px;">
+            <div style="border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); background: #fff;">
+              {% if collection.image %}
+                <img src="{{ collection.image | img_url: '400x400' }}" alt="{{ collection.title }}" style="width: 100%; height: auto;">
+              {% endif %}
+              <div style="padding: 1rem;">
+                <h3 style="font-size: 1.2rem;">{{ collection.title }}</h3>
+                <p style="font-size: 0.95rem; color: #555;">{{ collection.description | strip_html | truncate: 100 }}</p>
+              </div>
+            </div>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
